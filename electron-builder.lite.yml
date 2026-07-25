@@ -1,0 +1,54 @@
+﻿# Облегчённый вариант клиента.
+#
+# Отдельные appId и productName — принципиально: от них зависят
+# и папка установки, и запись в списке программ, и папка настроек
+# (%APPDATA%\VELT Lite). Обычный VELT Client при установке Lite
+# не затрагивается никак.
+
+appId: io.velt.lite
+productName: VELT Lite
+copyright: Copyright © 2026 VELT
+
+directories:
+  output: release-lite
+  buildResources: build
+
+# Точка входа та же, что у обычной сборки — dist/main/index.js.
+#
+# extraMetadata здесь НЕ используется намеренно: electron-builder
+# переписывает им исходный package.json, снося scripts и devDependencies.
+# Проверено на своей шкуре. Вместо этого `npm run build:lite` кладёт
+# облегчённую сборку в тот же dist/, а вариант зашит в код на этапе сборки.
+#
+# Практическое следствие: dist/ содержит тот вариант, который собран
+# последним. Порядок в dist:all выбран так, чтобы в конце остался обычный.
+files:
+  - dist/**/*
+  - package.json
+  - "!**/*.map"
+
+asar: true
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+  icon: build/icon-lite.ico
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: VELT Lite
+  deleteAppDataOnUninstall: false
+  # Свой каталог установки, чтобы не пересечься с обычным клиентом.
+  menuCategory: false
+
+portable:
+  artifactName: ${productName}-${version}-portable.${ext}
+

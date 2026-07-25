@@ -1,0 +1,47 @@
+appId: io.velt.client
+productName: VELT Client
+copyright: Copyright © 2026 VELT
+
+directories:
+  output: release
+  buildResources: build
+
+# В сборку попадает только dist/ и манифест.
+# src/ и research/ остаются снаружи.
+files:
+  - dist/**/*
+  - package.json
+  - "!**/*.map"
+
+asar: true
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+  icon: build/icon.ico
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: VELT Client
+  deleteAppDataOnUninstall: false
+
+portable:
+  artifactName: ${productName}-${version}-portable.${ext}
+
+# Автообновление. Клиент проверяет релизы именно в этом репозитории,
+# поэтому owner и repo должны совпадать с реальным адресом на GitHub.
+# Если не совпадут, updater не найдёт фид и тихо выключится
+# (см. src/main/services.js) — клиент при этом продолжит работать.
+publish:
+  provider: github
+  owner: spelen1t1k-svg
+  repo: velt-client
+  releaseType: release

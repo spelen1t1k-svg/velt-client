@@ -1,0 +1,32 @@
+{
+  "name": "velt-client",
+  "version": "1.0.0",
+  "description": "VELT Client — десктопный клиент для Kirka.io",
+  "main": "dist/main/index.js",
+  "author": "VELT",
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "build:lite": "node build.mjs --lite",
+    "watch": "node build.mjs --watch",
+    "icon": "electron tools/make-icon.mjs",
+    "icon:lite": "electron tools/make-icon.mjs --light",
+    "start": "npm run build && electron dist/main/index.js",
+    "start:lite": "npm run build:lite && electron dist/main/index.js",
+    "debug": "npm run build && electron dist/main/index.js -- --velt-debug",
+    "debug:lite": "npm run build:lite && electron dist/main/index.js -- --velt-debug",
+    "dist": "npm run build && electron-builder --win",
+    "dist:lite": "npm run build:lite && electron-builder --win --config electron-builder.lite.yml",
+    "dist:all": "npm run dist:lite && npm run dist",
+    "dist:dir": "npm run build && electron-builder --win --dir"
+  },
+  "devDependencies": {
+    "electron": "^40.1.0",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.25.0"
+  },
+  "dependencies": {
+    "electron-updater": "^6.7.3"
+  }
+}
