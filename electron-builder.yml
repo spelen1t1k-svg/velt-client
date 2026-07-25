@@ -15,6 +15,10 @@ files:
 
 asar: true
 
+# compression: maximum не ставим — проверено, размер установщика
+# не меняется вообще (92.3 МБ в обоих случаях), а сборка идёт дольше.
+# Вес задаёт Chromium внутри Electron, сжимать там уже нечего.
+
 win:
   target:
     - target: nsis
@@ -22,7 +26,13 @@ win:
     - target: portable
       arch: [x64]
   icon: build/icon.ico
-  artifactName: ${productName}-${version}-${arch}.${ext}
+  # Имя без пробелов — принципиально.
+  #
+  # GitHub при загрузке заменяет пробелы в имени файла на точки, а
+  # electron-builder пишет в latest.yml имя с дефисами. Из-за этого
+  # ссылка в фиде обновлений не совпадает с реальным именем ассета,
+  # и автообновление молча перестаёт находить новую версию.
+  artifactName: VELT-Client-${version}-${arch}.${ext}
 
 nsis:
   oneClick: false
@@ -34,7 +44,7 @@ nsis:
   deleteAppDataOnUninstall: false
 
 portable:
-  artifactName: ${productName}-${version}-portable.${ext}
+  artifactName: VELT-Client-${version}-portable.${ext}
 
 # Автообновление. Клиент проверяет релизы именно в этом репозитории,
 # поэтому owner и repo должны совпадать с реальным адресом на GitHub.

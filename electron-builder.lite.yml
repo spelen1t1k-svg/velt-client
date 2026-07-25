@@ -36,7 +36,9 @@ win:
     - target: portable
       arch: [x64]
   icon: build/icon-lite.ico
-  artifactName: ${productName}-${version}-${arch}.${ext}
+  # Без пробелов: GitHub заменяет их на точки при загрузке ассета,
+  # и имя перестаёт совпадать с тем, что записано в фиде обновлений.
+  artifactName: VELT-Lite-${version}-${arch}.${ext}
 
 nsis:
   oneClick: false
@@ -50,5 +52,5 @@ nsis:
   menuCategory: false
 
 portable:
-  artifactName: ${productName}-${version}-portable.${ext}
+  artifactName: VELT-Lite-${version}-portable.${ext}
 
