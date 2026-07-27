@@ -2,156 +2,129 @@
 
 # VELT Client
 
-**Неофициальный десктопный клиент для Kirka.io**
+**Unofficial desktop client for Kirka.io**
 
-Функциональность на уровне популярных клиентов — без микрофризов.
+Functionality on par with popular clients — without micro-stutters.
 
-[Установка](#установка) · [Две версии](#две-версии) · [Производительность](#производительность) · [Функции](#функции) · [Сборка](#сборка-из-исходников) · [Права](NOTICE.md)
+[Installation](#installation) · [Two Versions](#two-versions) · [Performance](#performance) · [Features](#features) · [Building](#building-from-source) · [Licensing](NOTICE.md)
 
 </div>
 
 ---
 
-## Что это
+## What It Is
 
-Окно Electron с игрой и своим слоем поверх: настройки оружия, свой скин, подмена
-звуков и текстур, счётчик FPS, переключатели интерфейса.
+An Electron window with the game and its own overlay layer: weapon settings, custom skins, sound and texture replacements, FPS counter, and interface toggles.
 
-Проект начался с разбора двух существующих клиентов — Dawn и Red Line. У первого
-богатый набор функций, но заметные микрофризы; у второго ровная работа при скромной
-функциональности. VELT собирался с целью взять первое и не взять второе.
+The project started by analyzing two existing clients — Dawn and Red Line. The former has a rich set of features but noticeable micro-stutters; the latter runs smoothly but has limited functionality. VELT was built with the goal of taking the best parts of the first without inheriting the problems of the second.
 
-Разбор, из которого всё выросло, лежит в [`research/`](research/) — там же подробно,
-что именно вызывает рывки в клиентах на Kirka и как этого избежать.
+The research that everything was based on can be found in [`research/`](research/) — it also contains a detailed explanation of what exactly causes stuttering in Kirka clients and how to avoid it.
 
-## Установка
+## Installation
 
-Скачайте с [**Releases**](../../releases) и запустите:
+Download from [**Releases**](../../releases) and launch:
 
-| Файл | Что это |
-|---|---|
-| `VELT Client-x.y.z-x64.exe` | Установщик обычной версии |
-| `VELT Client-x.y.z-portable.exe` | Без установки, запускается как есть |
-| `VELT Lite-x.y.z-x64.exe` | Установщик Lite |
-| `VELT Lite-x.y.z-portable.exe` | Lite без установки |
+| File                             | What it is                                 |
+| -------------------------------- | ------------------------------------------ |
+| `VELT Client-x.y.z-x64.exe`      | Installer for the regular version          |
+| `VELT Client-x.y.z-portable.exe` | Portable version, no installation required |
+| `VELT Lite-x.y.z-x64.exe`        | Lite installer                             |
+| `VELT Lite-x.y.z-portable.exe`   | Portable Lite version                      |
 
-Windows покажет предупреждение SmartScreen: сборки не подписаны сертификатом
-(он платный). **Подробнее → Выполнить в любом случае.** Если не устраивает —
-соберите сами из исходников, инструкция ниже.
+Windows will show a SmartScreen warning: the builds are not signed with a certificate (certificates are paid). **More info → Run anyway.** If you are not comfortable with that, build the client yourself from source using the instructions below.
 
-Обе версии можно поставить одновременно: у них разные папки установки и разные
-настройки, друг друга они не трогают.
+Both versions can be installed at the same time: they use different installation folders and separate settings, so they do not interfere with each other.
 
-Меню клиента открывается по **Right Shift** или **F1**.
+The client menu can be opened with **Right Shift** or **F1**.
 
-## Две версии
+## Two Versions
 
-|  | **VELT Client** | **VELT Lite** |
-|---|---|---|
-| Оформление | тёмное | светлое |
-| Счётчик FPS и пинга | ✅ | ✅ |
-| Свой скин (CSL) | ✅ | ✅ |
-| Модель оружия: размер, положение, поворот, цвет, wireframe, осмотр | ✅ | ✅ |
-| Свой CSS | ✅ | ✅ |
-| Свои звуки и текстуры | ✅ | ✅ |
-| Блокировка рекламы | ✅ | ✅ |
-| Переключатели HUD | ✅ | — |
-| Кастомный прицел | ✅ | — |
-| Иконка убийства и хитмаркер | ✅ | — |
-| Фон меню | ✅ | — |
-| Пользовательские скрипты | ✅ | — |
-| Пресет флагов по умолчанию | Balanced | **Max** |
+|                                                                      | **VELT Client** | **VELT Lite** |
+| -------------------------------------------------------------------- | --------------- | ------------- |
+| Theme                                                                | Dark            | Light         |
+| FPS and ping counter                                                 | ✅               | ✅             |
+| Custom skin (CSL)                                                    | ✅               | ✅             |
+| Weapon model: size, position, rotation, color, wireframe, inspection | ✅               | ✅             |
+| Custom CSS                                                           | ✅               | ✅             |
+| Custom sounds and textures                                           | ✅               | ✅             |
+| Ad blocking                                                          | ✅               | ✅             |
+| HUD toggles                                                          | ✅               | —             |
+| Custom crosshair                                                     | ✅               | —             |
+| Kill icon and hitmarker                                              | ✅               | —             |
+| Menu background                                                      | ✅               | —             |
+| User scripts                                                         | ✅               | —             |
+| Default flag preset                                                  | Balanced        | **Max**       |
 
-**Lite** — если нужен максимум кадров и ничего лишнего.
-**Client** — если нужен весь набор.
+**Lite** — if you want maximum FPS and nothing extra.
+**Client** — if you want the full feature set.
 
-## Производительность
+## Performance
 
-Замеры делались на реальной 3D-сцене в матче, а не в лобби: в лобби холст 300×150
-и рисовать нечего, любые числа оттуда бессмысленны.
+Tests were performed in a real 3D scene during a match, not in the lobby: in the lobby, the canvas is 300×150 and there is almost nothing to render, making any numbers from there meaningless.
 
-Стенд: GTX 1650, холст 1064×681, 25 секунд на прогон.
+Test system: GTX 1650, canvas 1064×681, 25 seconds per run.
 
-### Что дало прирост
+### What Improved Performance
 
-| Вариант | FPS | p50 | p99 | Джиттер |
-|---|---|---|---|---|
-| Без `in-process-gpu` (2 прогона) | 208 / 234 | 4.4 / 3.9 | 12.4 / 10.9 | 2.8 |
-| `--use-angle=vulkan` | **132** | 7.3 | 12.5 | 1.71 |
-| `--in-process-gpu` (2 прогона) | 317 / 291 | 3.2 / 3.5 | 5.3 / 9.0 | 1.7 |
-| **Итоговая конфигурация Lite** | **389** | 2.5 | 4.4 | 1.76 |
+| Variant                           | FPS       | p50       | p99         | Jitter |
+| --------------------------------- | --------- | --------- | ----------- | ------ |
+| Without `in-process-gpu` (2 runs) | 208 / 234 | 4.4 / 3.9 | 12.4 / 10.9 | 2.8    |
+| `--use-angle=vulkan`              | **132**   | 7.3       | 12.5        | 1.71   |
+| `--in-process-gpu` (2 runs)       | 317 / 291 | 3.2 / 3.5 | 5.3 / 9.0   | 1.7    |
+| **Final Lite configuration**      | **389**   | 2.5       | 4.4         | 1.76   |
 
-Сработал ровно один флаг — `--in-process-gpu`: графический процесс переезжает внутрь
-основного, и команды WebGL перестают ходить через межпроцессный обмен. **Vulkan сделал
-хуже в полтора раза** — наглядно, почему такие вещи проверяют, а не выбирают по описанию.
+Exactly one flag made the difference — `--in-process-gpu`: the GPU process is moved inside the main process, so WebGL commands no longer have to go through inter-process communication. **Vulkan made performance 1.5× worse** — a good example of why these things should be tested instead of chosen based on descriptions.
 
-Второе по значимости — **блокировка рекламы на уровне сети**. Без неё игра тянет около
-пятнадцати рекламных скриптов, Google IMA SDK с видеоплеером и аналитику; всё это
-работает на том же потоке, что и игра. Скрытие через CSS убирает только картинку,
-код продолжает крутиться. У VELT такие запросы не доходят вовсе: проверено — **0**.
+The second most important improvement is **network-level ad blocking**. Without it, the game loads around fifteen advertising scripts, the Google IMA SDK with a video player, and analytics; all of this runs on the same thread as the game. Hiding ads with CSS only removes the visual element while the code continues running. With VELT, these requests do not reach the game at all: verified — **0**.
 
-### Чем отличается от Dawn Client
+### How It Differs from Dawn Client
 
-Прямого сравнения FPS между VELT и Dawn **не проводилось** — это было бы некорректно
-без одинаковых условий. Зато посчитано по исходникам, и эти числа объективны:
+A direct FPS comparison between VELT and Dawn **was not performed** — such a comparison would be inaccurate without identical testing conditions. However, the following numbers were calculated from the source code and are objective:
 
-| | Dawn Client | VELT |
-|---|---|---|
-| Electron | **10.4.7** (Chromium 85, 2020 г.) | **40.x** (Chromium 144) |
-| Кадровых циклов `requestAnimationFrame` | 3, один вечный пустой | 1 общий, останавливается без подписчиков |
-| `MutationObserver` | 30, из них 3 на `body` и `document` целиком | 1, на `#app`, без `subtree` |
-| Снятие подписок при смене раздела | только у одного из восьми | у всех, структурно |
-| `ipcRenderer.sendSync` (блокирует рендерер) | 17 | 0 |
-| Синхронный I/O в главном процессе | 67 вызовов | 1 при старте |
-| `DOMSubtreeModified` (удалён из Chromium) | 2 | 0 |
-| Строк в кадровом цикле WebGL | ~9 на вызов через `toFixed()` | 0, целочисленная сигнатура |
-| Синхронные запросы к GPU в кадре | `gl.getParameter()` каждый кадр | нет |
+|                                              | Dawn Client                                             | VELT                                               |
+| -------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------- |
+| Electron                                     | **10.4.7** (Chromium 85, 2020)                          | **40.x** (Chromium 144)                            |
+| `requestAnimationFrame` loops                | 3, one permanent empty loop                             | 1 shared loop, stops when there are no subscribers |
+| `MutationObserver`                           | 30, 3 of them watching the entire `body` and `document` | 1, watching `#app`, without `subtree`              |
+| Unsubscribing when changing sections         | Only 1 out of 8                                         | All of them, structurally                          |
+| `ipcRenderer.sendSync` (blocks the renderer) | 17                                                      | 0                                                  |
+| Synchronous I/O in the main process          | 67 calls                                                | 1 at startup                                       |
+| `DOMSubtreeModified` (removed from Chromium) | 2                                                       | 0                                                  |
+| Strings in the WebGL frame loop              | ~9 per call through `toFixed()`                         | 0, integer signature                               |
+| Synchronous GPU queries per frame            | `gl.getParameter()` every frame                         | None                                               |
 
-Главное здесь — **третья строка**. У Dawn обработчики разделов вызываются заново на
-каждую смену страницы и не снимают старые подписки. После десяти матчей живых
-наблюдателей за сотню, и каждый срабатывает на любое изменение DOM. Клиент тем хуже,
-чем дольше играешь; помогает только перезапуск. В VELT всё, что создаёт скрипт,
-попадает в реестр очистки — забыть отписаться там технически невозможно.
+The most important point here is **the third row**. In Dawn, section handlers are called again every time the page changes and old subscriptions are not removed. After ten matches, there can be more than a hundred active observers, each of them triggering on any DOM change. The client gets worse the longer you play; only restarting helps. In VELT, everything created by a script is added to a cleanup registry — forgetting to unsubscribe is technically impossible.
 
-Подробный разбор: [`research/LAG_ANALYSIS.md`](research/LAG_ANALYSIS.md).
+Detailed analysis: [`research/LAG_ANALYSIS.md`](research/LAG_ANALYSIS.md).
 
-### Как проверить самому
+### How to Test It Yourself
 
 ```bash
 npm run debug
 ```
 
-В консоли раз в пять секунд появятся перцентили времени кадра, счётчик long tasks
-и число живых подписок. То же самое — в меню клиента, вкладка **Performance**.
+Every five seconds, the console will display frame-time percentiles, the number of long tasks, and the number of active subscriptions. The same information is available in the client menu under the **Performance** tab.
 
-Ориентир: **не средний FPS, а p99 и джиттер.** Клиент может показывать 240 кадров
-и дёргаться, если раз в секунду один кадр занимает 40 мс.
+The key metric is **not average FPS, but p99 and jitter**. A client can show 240 FPS and still stutter if one frame every second takes 40 ms.
 
-## Функции
+## Features
 
-Всё настраивается на вкладке **Scripts**: тумблер включает функцию, её настройки
-видны сразу под ней.
+Everything is configured in the **Scripts** tab: enabling a feature immediately displays its settings below it.
 
-- **Модель оружия** — размер, смещение и поворот по трём осям, цвет, RGB-перелив,
-  wireframe, отдельно для рук. Анимация осмотра по клавише. Правка с клавиатуры
-  прямо в бою: `T`/`Y` размер, `G` wireframe, `H` RGB, `Alt`+стрелки положение.
-  Значения сохраняются и переживают перезаход в матч.
-- **Свой скин (CSL)** — текстура по ссылке, цвета головы и тела.
-- **Звуки и текстуры** — 25 звуковых слотов и 11 текстур оружия. Файл достаточно
-  назвать `__hit__.mp3` без хеша: замена переживёт обновление игры.
-- **Интерфейс игры** — скрыть чат, текст убийств, весь HUD; постоянные прицел
-  и таблист; прозрачность, масштаб, высота чата.
-- **Кастомный прицел** — своя картинка или крест с настройкой размера и цвета.
-- **Иконка убийства и хитмаркер**, **фон меню**, **свой CSS**.
-- **Пользовательские скрипты** — обычные скрипты в стиле Tampermonkey работают как есть.
-- **Перенос из Dawn Client** — забирает звуки, картинки и скрипты одной кнопкой.
+* **Weapon model** — size, offset and rotation on three axes, color, RGB cycling, wireframe, separately configurable hands. Inspection animation on a keybind. Edit values directly during a match using the keyboard: `T`/`Y` for size, `G` for wireframe, `H` for RGB, `Alt`+arrow keys for position. Values are saved and persist between matches.
+* **Custom skin (CSL)** — texture from a URL, head and body colors.
+* **Sounds and textures** — 25 sound slots and 11 weapon textures. Simply name a file `__hit__.mp3` without a hash: the replacement will survive game updates.
+* **Game interface** — hide chat, kill feed, entire HUD; persistent crosshair and scoreboard; chat transparency, scale, and height.
+* **Custom crosshair** — use your own image or a crosshair with adjustable size and color.
+* **Kill icon and hitmarker**, **menu background**, **custom CSS**.
+* **User scripts** — regular Tampermonkey-style scripts work as they are.
+* **Dawn Client migration** — imports sounds, images, and scripts with one click.
 
-Хоткеи: `F2` скриншот, `F5` перезагрузка, `F6` перезаход в матч, `F11` полный экран,
-`F12` DevTools. Переназначаются на вкладке **Keybinds**.
+Hotkeys: `F2` screenshot, `F5` reload, `F6` rejoin the match, `F11` fullscreen, `F12` DevTools. They can be reassigned in the **Keybinds** tab.
 
-## Сборка из исходников
+## Building from Source
 
-Нужен [Node.js](https://nodejs.org/) 20 или новее.
+You need [Node.js](https://nodejs.org/) 20 or newer.
 
 ```bash
 git clone https://github.com/spelen1t1k-svg/velt-client.git
@@ -159,47 +132,42 @@ cd velt-client
 npm install
 ```
 
-Запуск без сборки установщика:
+Run without building an installer:
 
 ```bash
 npm start
 ```
 
-Установщики:
+Installers:
 
 ```bash
 npm run dist:all
 ```
 
-Результат — в `release/` и `release-lite/`.
+The output will be placed in `release/` and `release-lite/`.
 
-| Команда | Что делает |
-|---|---|
-| `npm start` | Обычная версия |
-| `npm run start:lite` | Lite |
-| `npm run debug` | С диагностикой производительности |
-| `npm run dist` | Установщики обычной версии |
-| `npm run dist:lite` | Установщики Lite |
-| `npm run dist:all` | И то и другое |
-| `npm run icon` | Перегенерировать иконку |
+| Command              | What it does               |
+| -------------------- | -------------------------- |
+| `npm start`          | Regular version            |
+| `npm run start:lite` | Lite                       |
+| `npm run debug`      | Performance diagnostics    |
+| `npm run dist`       | Regular version installers |
+| `npm run dist:lite`  | Lite installers            |
+| `npm run dist:all`   | Both versions              |
+| `npm run icon`       | Regenerate the icon        |
 
-## Права, происхождение и Kirka.io
+## Licensing, Origins, and Kirka.io
 
-Проект написан заново, но идеи функций и знание внутреннего устройства игры пришли
-из разбора Dawn Client и Red Line Client. Родословная, что именно заимствовано,
-лицензии и отношения с правообладателем Kirka.io разобраны отдельно:
+The project was written from scratch, but the ideas behind its features and knowledge of the game's internal structure came from analyzing Dawn Client and Red Line Client. The project's lineage, what was specifically borrowed, licenses, and its relationship with the Kirka.io copyright holders are explained separately:
 
 ### → [**NOTICE.md**](NOTICE.md)
 
-Коротко: VELT **не связан с разработчиками Kirka.io и не одобрен ими**. Игровых
-преимуществ не даёт — ни аимбота, ни вол-хака, ни автоматизации. Но условия
-использования Kirka могут запрещать сторонние клиенты, поэтому **используйте на свой
-риск**: ответственности за блокировку аккаунта никто не несёт.
+In short: VELT **is not affiliated with or endorsed by the developers of Kirka.io**. It does not provide any gameplay advantages — no aimbot, wallhack, or automation. However, Kirka's Terms of Use may prohibit third-party clients, so **use it at your own risk**: no one is responsible for potential account bans.
 
-Код распространяется под [MIT](LICENSE).
+The code is distributed under the [MIT](LICENSE) license.
 
 ---
 
 <div align="center">
-<sub>Неофициальный проект. Kirka.io принадлежит её правообладателям.</sub>
+<sub>Unofficial project. Kirka.io belongs to its respective copyright holders.</sub>
 </div>
