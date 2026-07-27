@@ -1,142 +1,119 @@
-# Происхождение, заимствования и права
+# Origins, Borrowing, and Rights
 
-Документ существует, чтобы было видно: что в проекте своё, что взято у других
-и на каком основании. Написан честно, включая неудобные места.
-
----
-
-## Родословная клиентов Kirka.io
-
-Экосистема клиентов выросла из одного корня:
-
-| Проект | Автор | Роль |
-|---|---|---|
-| **Juice Client** | irrvlo | Первый клиент, от него пошли остальные |
-| **Dawn Client** | zVipexx | Развитие идей Juice, большой набор функций |
-| **Red Line Client** | robertpakalns | Другая ветка, упор на аккуратную архитектуру |
-| **Kirka Community Hub** | сообщество | Каталог тем, скинов, звуков |
-
-VELT — не форк ни одного из них. Это отдельная кодовая база, написанная заново.
-Но идеи функций и знание того, за какие элементы игры цепляться, пришли из разбора
-Dawn Client и Red Line Client, и это надо назвать вслух.
+This document exists to make it clear what is original to the project, what was taken from others, and on what basis. It is written honestly, including the uncomfortable parts.
 
 ---
 
-## Что именно взято
+## The Lineage of Kirka.io Clients
 
-### Взято: факты об игре, а не код
+The client ecosystem grew from a single root:
 
-Чтобы клиент работал с Kirka.io, нужно знать её устройство. Это не творческое
-произведение чьего-либо авторства, а свойства самой игры:
+| Project                 | Author        | Role                                                       |
+| ----------------------- | ------------- | ---------------------------------------------------------- |
+| **Juice Client**        | irrvlo        | The first client, from which the others originated         |
+| **Dawn Client**         | zVipexx       | Development of Juice's ideas, with a large set of features |
+| **Red Line Client**     | robertpakalns | A separate branch, focused on clean architecture           |
+| **Kirka Community Hub** | community     | Catalog of themes, skins, and sounds                       |
 
-- CSS-селекторы элементов интерфейса (`.kill-death`, `.desktop-game-interface`, `.hitmark`);
-- имена файлов ассетов и их хеши (`__hit__.200043fa.mp3`, `__texture__.b3fc7981__.webp`);
-- ключи `localStorage`, которыми игра хранит настройки отрисовки игроков;
-- числовые сигнатуры матриц, по которым в WebGL отличаются модель оружия и руки;
-- адреса игровых поддоменов и API.
+VELT is not a fork of any of them. It is a separate codebase written from scratch.
 
-Эти данные были получены разбором Dawn Client. Установить их можно и самостоятельно,
-изучая саму игру, — но честно сказать, что отправной точкой был именно Dawn.
-
-### Взято: идеи функций
-
-Список возможностей ориентировался на Dawn Client: модификация модели оружия,
-анимация осмотра, подмена звуков и текстур, свой скин, переключатели HUD,
-кастомный прицел, иконка убийства.
-
-Идея сама по себе не охраняется авторским правом, но приличия требуют назвать источник.
-
-### НЕ взято: реализация
-
-Весь код написан заново. Более того, реализация Dawn была разобрана как **пример
-того, как делать не надо** — в `research/LAG_ANALYSIS.md` подробно, почему.
-Ключевые расхождения:
-
-| | Dawn | VELT |
-|---|---|---|
-| Кадровые циклы | 3, один вечный пустой | 1 общий, останавливается без подписчиков |
-| MutationObserver | 30, из них 3 на `body`/`document` целиком | 1, на `#app`, без `subtree` |
-| Снятие подписок | только у одного раздела | у всего, структурно |
-| Сигнатуры матриц в кадре | строки через `toFixed()` | целое число, ноль аллокаций |
-| Запросы к GPU в кадре | `gl.getParameter()` каждый кадр | нет |
-| `ipcRenderer.sendSync` | 17 | 0 |
-| Синхронный I/O в main | 67 вызовов | 1 при старте |
-
-### Отдельно: был один скопированный кусок, и он переписан
-
-В ранней версии VELT блок CSS закреплённого таблиста был близок к коду Dawn.
-Это обнаружилось при подготовке к публикации и **переписано полностью** своей
-вёрсткой в монохромной палитре проекта.
-
-Причина не только в приличиях: в репозитории Dawn Client файл `LICENSE` содержит
-**GPL-3.0**, хотя `package.json` заявляет ISC. При копилефте копирование обязало
-бы VELT тоже стать GPL-3.0. Проще и честнее было написать своё.
+However, the feature ideas and knowledge of which parts of the game to interact with came from analyzing Dawn Client and Red Line Client, and this should be stated openly.
 
 ---
 
-## Лицензия VELT
+## What Was Taken
 
-**MIT** — см. `LICENSE`. Код свой, поэтому ограничений от заимствований нет.
+### Taken: Game Facts, Not Code
 
-## Зависимости
+For a client to work with Kirka.io, it is necessary to understand how the game is structured. These are not creative works belonging to someone else, but properties of the game itself:
 
-| Пакет | Лицензия | Зачем |
-|---|---|---|
-| [Electron](https://github.com/electron/electron) | MIT | Основа приложения |
-| [electron-builder](https://github.com/electron-userland/electron-builder) | MIT | Сборка установщиков |
-| [esbuild](https://github.com/evanw/esbuild) | MIT | Сборка бандлов |
-| [electron-updater](https://github.com/electron-userland/electron-builder) | MIT | Автообновление |
+* CSS selectors for interface elements (`.kill-death`, `.desktop-game-interface`, `.hitmark`);
+* asset file names and their hashes (`__hit__.200043fa.mp3`, `__texture__.b3fc7981__.webp`);
+* `localStorage` keys used by the game to store player rendering settings;
+* numerical matrix signatures used to distinguish weapon models and hands in WebGL;
+* addresses of game subdomains and APIs.
 
-Discord Rich Presence написан с нуля поверх `node:net` — пакет `discord-rpc`
-не используется.
+This data was obtained by analyzing Dawn Client. It can also be discovered independently by studying the game itself — but it is only fair to state that Dawn was the starting point.
 
----
+### Taken: Feature Ideas
 
-## Пользовательские скрипты
+The feature set was inspired by Dawn Client: weapon model modification, inspection animation, sound and texture replacement, custom skins, HUD toggles, custom crosshair, and kill icons.
 
-Скрипты, которые пользователь кладёт в свою папку, ему не принадлежат автоматически.
-Например, популярные в сообществе:
+An idea itself is not protected by copyright, but common courtesy requires naming the source.
 
-- **Custom Skin Link** — SheriffCarry;
-- **Gun scale modifier** — imnotkoolkid, zVipexx;
-- **esc menu bypass** — imnotkoolkid.
+### NOT Taken: Implementation
 
-VELT их **не распространяет** и в поставку не включает — он только умеет запускать
-файлы, которые пользователь принёс сам. Права на такие скрипты остаются у авторов.
+All code was written from scratch. In fact, Dawn's implementation was analyzed as an **example of what not to do** — `research/LAG_ANALYSIS.md` explains why in detail.
 
----
+Key differences:
 
-## Отношения с Kirka.io
+|                             | Dawn                                                | VELT                                               |
+| --------------------------- | --------------------------------------------------- | -------------------------------------------------- |
+| Animation loops             | 3, one permanently empty                            | 1 shared loop, stops when there are no subscribers |
+| MutationObserver            | 30, 3 of them watching the entire `body`/`document` | 1, watching `#app`, without `subtree`              |
+| Unsubscribing               | Only one section                                    | Everything, structurally                           |
+| Matrix signatures per frame | Strings through `toFixed()`                         | Integer, zero allocations                          |
+| GPU queries per frame       | `gl.getParameter()` every frame                     | None                                               |
+| `ipcRenderer.sendSync`      | 17                                                  | 0                                                  |
+| Synchronous I/O in main     | 67 calls                                            | 1 at startup                                       |
 
-Здесь важно быть точным, а не успокаивающим.
+### Separate Note: One Copied Section Was Rewritten
 
-**VELT не связан с разработчиками Kirka.io, не одобрен ими и никак с ними не
-аффилирован.** Kirka.io и её ассеты принадлежат правообладателям игры.
+In an early version of VELT, the CSS block for the pinned scoreboard was close to Dawn's code. This was discovered while preparing the project for publication and was **completely rewritten** using VELT's own layout and monochrome color palette.
 
-Что клиент делает: открывает `https://kirka.io` в окне Electron и добавляет свой
-интерфейс поверх. Ассеты игры не распространяются вместе с клиентом — подмена
-работает только с файлами, которые пользователь положил сам.
-
-Что клиент **не** делает: не даёт игровых преимуществ, не читает и не изменяет
-сетевой трафик матчей, не автоматизирует игровые действия, не обходит платные
-функции. Ни аимбота, ни вол-хака, ни чего-либо подобного в нём нет и не планируется.
-
-**Чего нельзя обещать.** Условия использования Kirka.io могут запрещать сторонние
-клиенты и модификацию интерфейса. Правообладатель вправе потребовать удаления
-проекта или заблокировать аккаунты, использующие его. Это не гипотеза о плохом
-исходе — это обычное положение дел для любого неофициального клиента.
-
-Отсюда практические выводы:
-
-- используйте на свой риск, за блокировку аккаунта ответственности никто не несёт;
-- если правообладатель попросит убрать проект — разумнее убрать, а не спорить;
-- не выдавайте клиент за официальный и не используйте бренд Kirka в названии,
-  логотипе или домене.
+The reason was not only a matter of courtesy: in the Dawn Client repository, the `LICENSE` file contains **GPL-3.0**, while `package.json` declares ISC. Copying code under the copyleft license would have required VELT to also become GPL-3.0. It was simpler and more honest to write our own implementation.
 
 ---
 
-## Если вы автор одного из упомянутых проектов
+## VELT License
 
-Считаете, что заимствование выходит за рамки описанного, или хотите изменить
-формулировку об авторстве — откройте issue. Спорные места будут переписаны
-или убраны без обсуждения условий.
+**MIT** — see `LICENSE`. The code is original, so there are no restrictions resulting from borrowed code.
+
+## Dependencies
+
+| Package                                                                   | License | Purpose                |
+| ------------------------------------------------------------------------- | ------- | ---------------------- |
+| [Electron](https://github.com/electron/electron)                          | MIT     | Application foundation |
+| [electron-builder](https://github.com/electron-userland/electron-builder) | MIT     | Installer builds       |
+| [esbuild](https://github.com/evanw/esbuild)                               | MIT     | Bundle building        |
+| [electron-updater](https://github.com/electron-userland/electron-builder) | MIT     | Automatic updates      |
+
+Discord Rich Presence is written from scratch on top of `node:net` — the `discord-rpc` package is not used.
+
+---
+
+## User Scripts
+
+Scripts that users place in their own folder do not automatically belong to them. Examples of popular community scripts include:
+
+* **Custom Skin Link** — SheriffCarry;
+* **Gun scale modifier** — imnotkoolkid, zVipexx;
+* **esc menu bypass** — imnotkoolkid.
+
+VELT **does not distribute** these scripts and does not include them in its release — it only provides the ability to run files that the user brings themselves. The rights to such scripts remain with their respective authors.
+
+---
+
+## Relationship with Kirka.io
+
+It is important to be precise here rather than reassuring.
+
+**VELT is not affiliated with, endorsed by, or otherwise connected to the developers of Kirka.io.** Kirka.io and its assets belong to their respective copyright holders.
+
+What the client does: it opens `https://kirka.io` in an Electron window and adds its own interface layer on top. Game assets are not distributed with the client — replacements only work with files that the user provides themselves.
+
+What the client **does not** do: it does not provide gameplay advantages, read or modify match network traffic, automate gameplay actions, or bypass paid features. There is no aimbot, wallhack, or anything similar, and none is planned.
+
+**What cannot be promised.** Kirka.io's Terms of Use may prohibit third-party clients and interface modifications. The copyright holder may request that the project be removed or ban accounts using it. This is not speculation about a worst-case scenario — it is a normal consideration for any unofficial client.
+
+Practical conclusions:
+
+* use the client at your own risk; no one is responsible for account bans;
+* if the copyright holder asks for the project to be removed, it is more reasonable to comply than to argue;
+* do not present the client as official and do not use the Kirka brand in the name, logo, or domain.
+
+---
+
+## If You Are the Author of One of the Mentioned Projects
+
+If you believe that the borrowing goes beyond what is described here, or if you would like to change the wording regarding authorship, open an issue. Any disputed sections will be rewritten or removed without arguing over the terms.
